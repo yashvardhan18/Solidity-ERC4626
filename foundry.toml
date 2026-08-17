@@ -1,0 +1,42 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+test = "test"
+
+# Pin the compiler so builds are reproducible across machines.
+solc_version = "0.8.28"
+
+# The optimizer is what a production deployment would use, so we test the same
+# bytecode shape we would ship.
+optimizer = true
+optimizer_runs = 200
+
+# Cancun is the default EVM target for 0.8.28 and is live on mainnet.
+evm_version = "cancun"
+
+# Import shortcuts: `import {IERC20} from "@openzeppelin/contracts/..."`
+remappings = [
+    "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+    "forge-std/=lib/forge-std/src/",
+]
+
+# Verbose revert data in traces makes failing custom errors readable.
+verbosity = 2
+
+[fuzz]
+# Project-wide default. Individual tests that need more (Task 2 requires
+# 10,000) override this with an inline `forge-config:` comment.
+runs = 1000
+max_test_rejects = 200_000
+
+[invariant]
+runs = 256
+depth = 64
+fail_on_revert = false
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = false
+int_types = "long"
